@@ -1,13 +1,12 @@
-// src/pages/teacher/MarkAttendance.jsx
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaCalendarAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa'
 import { format } from 'date-fns'
-import Button from '../../components/ui/Button'
-import AttendanceGrid from '../../components/attendance/AttendanceGrid'
+import Button from '../components/ui/Button'
+import AttendanceGrid from '../components/attendance/AttendanceGrid'
 
-const MarkAttendance = () => {
+const AttendanceMarking = () => {
   const { classId } = useParams()
   const navigate = useNavigate()
   const [classInfo, setClassInfo] = useState(null)
@@ -39,7 +38,7 @@ const MarkAttendance = () => {
 
   const handleSubmit = () => {
     // In a real app, this would save the attendance data
-    navigate('/teacher/confirmation')
+    navigate('/confirmation')
   }
 
   if (loading) {
@@ -64,7 +63,7 @@ const MarkAttendance = () => {
           </div>
           <Button 
             variant="outline"
-            onClick={() => navigate('/teacher/classes')}
+            onClick={() => navigate('/classes')}
           >
             Back to Classes
           </Button>
@@ -117,4 +116,4 @@ const MarkAttendance = () => {
   )
 }
 
-export default MarkAttendance
+export default AttendanceMarking

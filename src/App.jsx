@@ -1,16 +1,30 @@
 // src/App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+// Layouts
 import PublicLayout from "./layouts/PublicLayout";
 import TeacherLayout from "./layouts/TeacherLayout";
 import StudentLayout from "./layouts/StudentLayout";
+
+// Pages
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-// import TeacherDashboard from "./pages/teacher/TeachDashboard";
-// import MarkAttendance from "./pages/teacher/MarkAttendance";
+import Dashboard from "./pages/Dashboard"; // optional shared dashboard if used
+import ClassSelection from "./pages/ClassSelection";
+import AttendanceMarking from "./pages/AttendanceMarking";
+import ConfirmationPage from "./pages/ConfirmationPage";
+
+// Teacher Pages
+import TeachDashboard from "./pages/teacher/TeachDashboard";
+import MarkAttendance from "./pages/teacher/MarkAttendance";
+
+// Student Pages
 import StudentDashboard from "./pages/student/StudentDashboard";
 import AttendanceDetails from "./pages/student/AttendanceDetails";
+
+// Components
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -24,18 +38,21 @@ function App() {
           <Route path="/signup" element={<Signup />} />
         </Route>
 
-        {/* Teacher Routes
+        {/* Teacher Routes */}
         <Route
-          // path="/teacher/*"
-          // element={
-          //   <ProtectedRoute role="teacher">
-          //     <TeacherLayout />
-          //   </ProtectedRoute>
-          // }
+          path="/teacher/*"
+          element={
+            <ProtectedRoute role="teacher">
+              <TeacherLayout />
+            </ProtectedRoute>
+          }
         >
-          <Route path="dashboard" element={<TeacherDashboard />} />
+          <Route path="dashboard" element={<TeachDashboard />} />
+          <Route path="classes" element={<ClassSelection />} />
+          <Route path="attendance/:classId" element={<AttendanceMarking />} />
           <Route path="mark-attendance" element={<MarkAttendance />} />
-        </Route> */}
+          <Route path="confirmation" element={<ConfirmationPage />} />
+        </Route>
 
         {/* Student Routes */}
         <Route
@@ -50,7 +67,15 @@ function App() {
           <Route path="attendance-details" element={<AttendanceDetails />} />
         </Route>
 
-        <Route path="*" element={<h1 className="text-center text-xl p-4">404 - Not Found</h1>} />
+        {/* 404 Fallback */}
+        <Route
+          path="*"
+          element={
+            <h1 className="text-center text-xl p-4">
+              404 - Not Found
+            </h1>
+          }
+        />
       </Routes>
     </Router>
   );

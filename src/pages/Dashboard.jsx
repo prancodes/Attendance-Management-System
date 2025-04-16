@@ -1,4 +1,3 @@
-// src/pages/teacher/TeachDashboard.jsx
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -7,9 +6,9 @@ import {
   FaUserGraduate,
   FaClipboardCheck,
 } from "react-icons/fa";
-import Card from "../../components/ui/Card";
+import Card from "../components/ui/Card";
 
-const TeachDashboard = () => {
+const Dashboard = () => {
   const [stats, setStats] = useState(null);
 
   useEffect(() => {
@@ -118,7 +117,7 @@ const TeachDashboard = () => {
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-semibold">Today's Classes</h2>
               <Link
-                to="/teacher/classes"
+                to="/classes"
                 className="text-indigo-600 text-sm hover:underline"
               >
                 View All
@@ -141,7 +140,7 @@ const TeachDashboard = () => {
                   <div className="text-right">
                     <p className="text-indigo-600 font-medium">{cls.time}</p>
                     <Link
-                      to={`/teacher/attendance/${cls.id}`}
+                      to={`/attendance/${cls.id}`}
                       className="text-xs text-indigo-500 hover:underline"
                     >
                       Take Attendance
@@ -218,4 +217,4 @@ const TeachDashboard = () => {
   );
 };
 
-export default TeachDashboard;
+export default Dashboard;
