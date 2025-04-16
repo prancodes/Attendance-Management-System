@@ -30,9 +30,21 @@ function App() {
         <Route path="/teacher/*" element={<TeacherLayout />}>
           <Route path="dashboard" element={<TeachDashboard />} />
           <Route path="classes" element={<ClassSelection />} />
-          <Route path="attendance/:classId" element={<MarkAttendance />} />
+          <Route path="attendance/:classId" element={<AttendanceMarking />} />
+          <Route path="mark-attendance" element={<MarkAttendance />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>
+
+        {/* Student Routes */}
+        {/* <Route
+          path="/student/*"
+          element={
+            <StudentLayout />
+          }
+        >
+          <Route path="dashboard" element={<StudentDashboard />} />
+          <Route path="attendance-details" element={<AttendanceDetails />} />
+        </Route> */}
 
         <Route path="*" element={<h1 className="text-center text-xl p-4">404 - Not Found</h1>} />
       </Routes>
