@@ -1,23 +1,29 @@
 // src/layouts/TeacherLayout.jsx
 import React from "react";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet, Link, useNavigate } from "react-router-dom";
 
 const TeacherLayout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("loggedInUser");
+    navigate("/login");
+  };
+
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="bg-green-600 text-white p-4 flex justify-between items-center">
-        <Link to="/teacher/dashboard" className="text-xl font-bold">
-          Teacher Portal
-        </Link>
-        <nav>
-          <Link to="/teacher/dashboard" className="mr-4 hover:underline">Dashboard</Link>
-          <Link to="/teacher/mark-attendance" className="hover:underline">Mark Attendance</Link>
-        </nav>
-      </header>
-      <main className="flex-1 p-4">
+    <div className="min-h-screen flex flex-col bg-gray-50">
+      <nav className="bg-purple-600 text-white p-4 flex justify-between">
+        <div>
+          <Link to="/teacher/dashboard" className="mr-4">Dashboard</Link>
+          <Link to="/teacher/mark-attendance">Mark Attendance</Link>
+        </div>
+        <button onClick={handleLogout} className="bg-red-500 px-3 py-1 rounded hover:bg-red-600">
+          Logout
+        </button>
+      </nav>
+      <main className="flex-grow p-4">
         <Outlet />
       </main>
-      <footer className="bg-gray-200 p-4 text-center">© 2025 Teacher Portal</footer>
     </div>
   );
 };

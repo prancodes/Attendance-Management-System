@@ -4,22 +4,16 @@ import { Outlet, Link } from "react-router-dom";
 
 const PublicLayout = () => {
   return (
-    <div>
-      <header className="bg-gray-800 text-white p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <Link to="/" className="text-xl font-bold">
-            Attendance System
-          </Link>
-          <nav>
-            <Link to="/" className="mr-4 hover:underline">
-              Home
-            </Link>
-            <Link to="/login" className="hover:underline">
-              Login
-            </Link>
-          </nav>
+    <div className="min-h-screen bg-gray-100">
+      <nav className="bg-blue-600 text-white p-4">
+        <div className="flex justify-between">
+          <div>
+            <Link to="/" className="mr-4">Home</Link>
+            <Link to="/login" className="mr-4">Login</Link>
+            <Link to="/signup">Sign Up</Link>
+          </div>
         </div>
-      </header>
+      </nav>
       <main>
         <Outlet />
       </main>
