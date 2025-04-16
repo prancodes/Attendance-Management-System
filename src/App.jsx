@@ -49,7 +49,7 @@ function App() {
         >
           <Route path="dashboard" element={<TeachDashboard />} />
           <Route path="classes" element={<ClassSelection />} />
-          <Route path="attendance/:classId" element={<AttendanceMarking />} />
+          <Route path="attendance/:classId" element={<MarkAttendance />} />
           <Route path="mark-attendance" element={<MarkAttendance />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>

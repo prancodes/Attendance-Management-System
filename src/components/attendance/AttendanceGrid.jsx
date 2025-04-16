@@ -1,14 +1,37 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import StudentCard from './StudentCard'
+import { getAttendance } from '../../utils/storage'
+import { format } from 'date-fns'
 
-const AttendanceGrid = ({ classId, date }) => {
+const AttendanceGrid = ({ classId, date, onAttendanceChange }) => {
   const [students, setStudents] = useState([])
   const [loading, setLoading] = useState(true)
+  
+  // Format date as YYYY-MM-DD for storage key
+  const dateKey = date instanceof Date ? format(date, 'yyyy-MM-dd') : '';
 
   useEffect(() => {
+    // Reset loading state when classId or date changes
+    setLoading(true);
+    
     // Simulate fetching students for this class
     setTimeout(() => {
+      // Check if we have saved attendance data for this class and date
+      const savedAttendance = getAttendance(classId, dateKey);
+      
+      if (savedAttendance && savedAttendance.length > 0) {
+        // Use saved data if available
+        setStudents(savedAttendance);
+        setLoading(false);
+        // Notify parent component of the current attendance data
+        if (onAttendanceChange) {
+          onAttendanceChange(savedAttendance);
+        }
+        return;
+      }
+      
+      // Otherwise use mock data
       const mockStudents = [
         { id: '27', name: 'Pranjal Singh', status: 'not_marked' },
         { id: '28', name: 'Prathamesh Singh', status: 'not_marked' },
@@ -25,22 +48,45 @@ const AttendanceGrid = ({ classId, date }) => {
       ]
       setStudents(mockStudents)
       setLoading(false)
-    }, 1000)
-  }, [classId])
+      
+      // Notify parent component of the initial data
+      if (onAttendanceChange) {
+        onAttendanceChange(mockStudents);
+      }
+    }, 600) // Reduced timeout for better UX
+  }, [classId, dateKey, onAttendanceChange])
 
-  const handleStatusChange = (studentId, newStatus) => {
-    setStudents(students.map(student => 
+  const handleStatusChange = useCallback((studentId, newStatus) => {
+    const updatedStudents = students.map(student => 
       student.id === studentId ? { ...student, status: newStatus } : student
-    ))
-  }
+    );
+    setStudents(updatedStudents);
+    
+    // Notify parent component of the updated attendance data
+    if (onAttendanceChange) {
+      onAttendanceChange(updatedStudents);
+    }
+  }, [students, onAttendanceChange]);
 
-  const markAll = (status) => {
-    setStudents(students.map(student => ({ ...student, status })))
-  }
+  const markAll = useCallback((status) => {
+    const updatedStudents = students.map(student => ({ ...student, status }));
+    setStudents(updatedStudents);
+    
+    // Notify parent component of the updated attendance data
+    if (onAttendanceChange) {
+      onAttendanceChange(updatedStudents);
+    }
+  }, [students, onAttendanceChange]);
 
-  const clearAll = () => {
-    setStudents(students.map(student => ({ ...student, status: 'not_marked' })))
-  }
+  const clearAll = useCallback(() => {
+    const updatedStudents = students.map(student => ({ ...student, status: 'not_marked' }));
+    setStudents(updatedStudents);
+    
+    // Notify parent component of the updated attendance data
+    if (onAttendanceChange) {
+      onAttendanceChange(updatedStudents);
+    }
+  }, [students, onAttendanceChange]);
 
   const getAttendanceStats = () => {
     const stats = { present: 0, absent: 0, late: 0, excused: 0, notMarked: 0 }

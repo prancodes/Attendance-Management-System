@@ -1,11 +1,15 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FaCheckCircle } from 'react-icons/fa'
 import Button from '../components/ui/Button'
 
 const ConfirmationPage = () => {
   const navigate = useNavigate()
-
+  const location = useLocation()
+  
+  // Get the data passed from the MarkAttendance component
+  const { className = 'Mathematics 101', date, stats } = location.state || {}
+  
   return (
     <div className="max-w-lg mx-auto">
       <motion.div
@@ -29,9 +33,27 @@ const ConfirmationPage = () => {
         </div>
         
         <h1 className="text-2xl font-bold text-gray-800 mb-2">Attendance Submitted!</h1>
-        <p className="text-gray-600 mb-8">
-          The attendance for Mathematics 101 has been successfully recorded.
+        <p className="text-gray-600 mb-4">
+          The attendance for {className} has been successfully recorded.
+          {date && <span className="block mt-1">Date: {date}</span>}
         </p>
+        
+        {stats && (
+          <div className="mb-6 grid grid-cols-2 gap-2 text-left">
+            <div className="bg-green-50 p-2 rounded">
+              <span className="text-green-600 font-medium">Present:</span> {stats.present}
+            </div>
+            <div className="bg-red-50 p-2 rounded">
+              <span className="text-red-600 font-medium">Absent:</span> {stats.absent}
+            </div>
+            <div className="bg-yellow-50 p-2 rounded">
+              <span className="text-yellow-600 font-medium">Late:</span> {stats.late}
+            </div>
+            <div className="bg-blue-50 p-2 rounded">
+              <span className="text-blue-600 font-medium">Excused:</span> {stats.excused}
+            </div>
+          </div>
+        )}
         
         <div className="flex flex-col space-y-3">
           <Button 
@@ -43,7 +65,7 @@ const ConfirmationPage = () => {
           </Button>
           
           <Button 
-            onClick={() => navigate('/classes')}
+            onClick={() => navigate('/teacher/classes')}
             variant="outline"
             size="lg"
           >

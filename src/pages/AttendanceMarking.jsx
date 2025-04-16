@@ -38,7 +38,7 @@ const AttendanceMarking = () => {
 
   const handleSubmit = () => {
     // In a real app, this would save the attendance data
-    navigate('/confirmation')
+    navigate('/teacher/confirmation')
   }
 
   if (loading) {
@@ -63,7 +63,7 @@ const AttendanceMarking = () => {
           </div>
           <Button 
             variant="outline"
-            onClick={() => navigate('/classes')}
+            onClick={() => navigate('/teacher/classes')}
           >
             Back to Classes
           </Button>
