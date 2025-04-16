@@ -10,10 +10,10 @@ const AttendanceGrid = ({ classId, date }) => {
     // Simulate fetching students for this class
     setTimeout(() => {
       const mockStudents = [
-        { id: '1001', name: 'Alex Johnson', status: 'not_marked' },
-        { id: '1002', name: 'Maria Garcia', status: 'not_marked' },
-        { id: '1003', name: 'David Chen', status: 'not_marked' },
-        { id: '1004', name: 'Sarah Miller', status: 'not_marked' },
+        { id: '27', name: 'Pranjal Singh', status: 'not_marked' },
+        { id: '28', name: 'Prathamesh Singh', status: 'not_marked' },
+        { id: '29', name: 'Pushkar Singh', status: 'not_marked' },
+        { id: '30', name: 'Shreyansh Singh', status: 'not_marked' },
         { id: '1005', name: 'James Wilson', status: 'not_marked' },
         { id: '1006', name: 'Emily Davis', status: 'not_marked' },
         { id: '1007', name: 'Robert Brown', status: 'not_marked' },
@@ -36,6 +36,10 @@ const AttendanceGrid = ({ classId, date }) => {
 
   const markAll = (status) => {
     setStudents(students.map(student => ({ ...student, status })))
+  }
+
+  const clearAll = () => {
+    setStudents(students.map(student => ({ ...student, status: 'not_marked' })))
   }
 
   const getAttendanceStats = () => {
@@ -83,6 +87,14 @@ const AttendanceGrid = ({ classId, date }) => {
               className="px-3 py-1 text-sm bg-red-500 text-white rounded-lg"
             >
               All Absent
+            </motion.button>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={clearAll}
+              className="px-3 py-1 text-sm bg-gray-500 text-white rounded-lg"
+            >
+              Clear All
             </motion.button>
           </div>
         </div>

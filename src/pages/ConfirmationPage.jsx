@@ -35,7 +35,7 @@ const ConfirmationPage = () => {
         
         <div className="flex flex-col space-y-3">
           <Button 
-            onClick={() => navigate('/')}
+            onClick={() => navigate('/teacher/dashboard')}
             variant="primary"
             size="lg"
           >

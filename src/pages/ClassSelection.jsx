@@ -112,7 +112,7 @@ const ClassSelection = () => {
               </div>
               
               <Link 
-                to={`/attendance/${cls.id}`}
+                to={`/teacher/attendance/${cls.id}`}
                 className="block w-full"
               >
                 <motion.button

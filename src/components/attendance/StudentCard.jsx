@@ -1,10 +1,15 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import StatusBadge from './StatusBadge'
 
 const StudentCard = ({ student, onStatusChange }) => {
   const [status, setStatus] = useState(student.status || 'not_marked')
   const [showOptions, setShowOptions] = useState(false)
+  
+  // Update local state when parent props change
+  useEffect(() => {
+    setStatus(student.status)
+  }, [student.status])
 
   const handleStatusChange = (newStatus) => {
     setStatus(newStatus)
@@ -53,13 +58,13 @@ const StudentCard = ({ student, onStatusChange }) => {
             animate={{ opacity: 1, y: 0 }}
             className="absolute right-0 mt-2 bg-white rounded-lg shadow-lg z-10 border overflow-hidden w-32"
           >
-            {['present', 'absent', 'late', 'excused'].map((option) => (
+            {['not_marked', 'present', 'absent', 'late', 'excused'].map((option) => (
               <div 
                 key={option}
                 onClick={() => handleStatusChange(option)}
                 className={`px-3 py-2 text-sm cursor-pointer hover:bg-gray-100 ${status === option ? 'bg-gray-100' : ''}`}
               >
-                {option.charAt(0).toUpperCase() + option.slice(1)}
+                {option === 'not_marked' ? 'Not marked' : option.charAt(0).toUpperCase() + option.slice(1)}
               </div>
             ))}
           </motion.div>
