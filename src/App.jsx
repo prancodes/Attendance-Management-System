@@ -1,78 +1,49 @@
 // src/App.jsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 // Layouts
-import PublicLayout from "./layouts/PublicLayout";
 import TeacherLayout from "./layouts/TeacherLayout";
 import StudentLayout from "./layouts/StudentLayout";
 
 // Pages
 import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Dashboard from "./pages/Dashboard"; // optional shared dashboard if used
-import ClassSelection from "./pages/ClassSelection";
-import AttendanceMarking from "./pages/AttendanceMarking";
-import ConfirmationPage from "./pages/ConfirmationPage";
-
-// Teacher Pages
 import TeachDashboard from "./pages/teacher/TeachDashboard";
+import ClassSelection from "./pages/ClassSelection";
 import MarkAttendance from "./pages/teacher/MarkAttendance";
-
-// Student Pages
+import ConfirmationPage from "./pages/ConfirmationPage";
 import StudentDashboard from "./pages/student/StudentDashboard";
 import AttendanceDetails from "./pages/student/AttendanceDetails";
-
-// Components
-import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
     <Router>
       <Routes>
-        {/* Public Routes */}
-        <Route element={<PublicLayout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Route>
+        {/* Optional landing page */}
+        <Route path="/" element={<Home />} />
 
         {/* Teacher Routes */}
-        <Route
-          path="/teacher/*"
-          element={
-            <ProtectedRoute role="teacher">
-              <TeacherLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/teacher/*" element={<TeacherLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<TeachDashboard />} />
           <Route path="classes" element={<ClassSelection />} />
           <Route path="attendance/:classId" element={<MarkAttendance />} />
-          <Route path="mark-attendance" element={<MarkAttendance />} />
           <Route path="confirmation" element={<ConfirmationPage />} />
         </Route>
 
         {/* Student Routes */}
-        <Route
-          path="/student/*"
-          element={
-            <ProtectedRoute role="student">
-              <StudentLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route path="/student/*" element={<StudentLayout />}>
+          <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<StudentDashboard />} />
           <Route path="attendance-details" element={<AttendanceDetails />} />
         </Route>
 
-        {/* 404 Fallback */}
+        {/* Catch‑all 404 */}
         <Route
           path="*"
           element={
             <h1 className="text-center text-xl p-4">
-              404 - Not Found
+              404 – Page Not Found
             </h1>
           }
         />
